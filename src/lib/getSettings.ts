@@ -115,6 +115,10 @@ export async function getSettings(): Promise<WeddingSettings> {
         });
 
         // Merge with defaults
+        // Preference order: 
+        // 1. Current side specific keys (pria_*, wanita_*) - handled by consumer usually
+        // 2. Global keys in DB
+        // 3. Defaults
         return {
             ...defaultSettings,
             ...dbSettings,

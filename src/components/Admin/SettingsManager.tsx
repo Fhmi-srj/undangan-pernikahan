@@ -340,7 +340,20 @@ const AudioUpload = ({ label, settingKey, value, onUpdate }: ImageUploadProps) =
 const SettingsManager: React.FC<SettingsManagerProps> = ({ initialSettings }: SettingsManagerProps) => {
     const [settings, setSettings] = useState(initialSettings);
     const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
-    const [activeSide, setActiveSide] = useState<"pria" | "wanita">("pria");
+
+    // Persist active side in localStorage
+    const [activeSide, setActiveSide] = useState<"pria" | "wanita">(() => {
+        if (typeof window !== "undefined") {
+            const saved = localStorage.getItem("admin_active_side");
+            return (saved === "wanita" ? "wanita" : "pria") as "pria" | "wanita";
+        }
+        return "pria";
+    });
+
+    useEffect(() => {
+        localStorage.setItem("admin_active_side", activeSide);
+    }, [activeSide]);
+
     const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
         bride: true,
         groom: false,
@@ -367,9 +380,32 @@ const SettingsManager: React.FC<SettingsManagerProps> = ({ initialSettings }: Se
     };
 
     const getSetting = (key: string): string => settings[getKey(key)] ?? settings[key] ?? "";
+
     const updateSetting = (key: string, value: string) => {
         const prefixedKey = getKey(key);
-        setSettings((prev: Record<string, string>) => ({ ...prev, [prefixedKey]: value }));
+        setSettings((prev: Record<string, string>) => {
+            const newSettings = { ...prev, [prefixedKey]: value };
+
+            // Auto-sync hero_date if it's the first time setting an event date 
+            // OR if hero_date is currently the default 11 Oktober 2025
+            if (key === "events_data") {
+                try {
+                    const events = JSON.parse(value);
+                    if (events.length > 0 && events[0].isoStart) {
+                        const dateOnly = events[0].isoStart.split("T")[0];
+                        const heroKey = activeSide === "wanita" ? "pria_hero_date" : "pria_hero_date";
+                        const currentHeroDate = prev[heroKey] || prev["hero_date"];
+
+                        // Only sync if hero date is empty or looks like the default
+                        if (!currentHeroDate || currentHeroDate === "2025-10-11") {
+                            newSettings[heroKey] = dateOnly;
+                        }
+                    }
+                } catch (e) { }
+            }
+
+            return newSettings;
+        });
     };
     const toggleSection = (section: string) => {
         setExpandedSections((prev: Record<string, boolean>) => ({ ...prev, [section]: !prev[section] }));
