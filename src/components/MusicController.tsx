@@ -26,7 +26,7 @@ const MusicController: React.FC = () => {
 
     return (
         <div
-            className={`fixed bottom-6 left-6 z-[1000] transition-all duration-1000 transform ${isVisible ? "translate-y-0 opacity-100" : "translate-y-20 opacity-0"
+            className={`transition-all duration-1000 transform ${isVisible ? "scale-100 opacity-100" : "scale-0 opacity-0"
                 }`}
         >
             <button

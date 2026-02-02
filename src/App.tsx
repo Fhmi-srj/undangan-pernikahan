@@ -140,8 +140,13 @@ const AppContent: React.FC = () => {
       </main>
 
       <MusicPlayer />
-      <MusicController />
-      <AutoScrollController isOpened={isOpened} />
+
+      {/* Floating Controllers Container */}
+      <div className="fixed left-6 top-1/2 z-[1000] -translate-y-1/2 flex flex-row items-center gap-3">
+        <MusicController />
+        <AutoScrollController isOpened={isOpened} />
+      </div>
+
       <Navbar theme={theme} toggleTheme={toggleTheme} />
 
       <footer className="dark:bg-darkSurface relative flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-white px-6 transition-colors duration-1000">

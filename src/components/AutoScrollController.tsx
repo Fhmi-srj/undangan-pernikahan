@@ -41,12 +41,12 @@ const AutoScrollController: React.FC<AutoScrollControllerProps> = ({ isOpened })
     if (!isOpened) return null;
 
     return (
-        <div className="fixed bottom-6 right-6 z-[1000] animate-in fade-in slide-in-from-bottom-4 duration-1000">
+        <div className="animate-in fade-in slide-in-from-left-4 duration-1000">
             <button
                 onClick={toggleScroll}
                 className={`group flex items-center gap-3 rounded-full px-5 py-3 text-[11px] font-bold tracking-[0.15em] uppercase shadow-2xl transition-all duration-500 hover:scale-105 frosted-glass border border-white/20 ${isActive
-                        ? "bg-accent text-white"
-                        : "bg-white/80 text-slate-700 hover:bg-white dark:bg-slate-900/80 dark:text-white"
+                    ? "bg-accent text-white"
+                    : "bg-white/80 text-slate-700 hover:bg-white dark:bg-slate-900/80 dark:text-white"
                     }`}
             >
                 {isActive ? (
