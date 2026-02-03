@@ -182,10 +182,10 @@ const EventDetails: React.FC = () => {
                       <MapPin className="h-5 w-5 md:h-7 md:w-7" />
                     </div>
                     <div className="min-w-0 flex-1 space-y-0.5">
-                      <h4 className="font-serif text-lg leading-tight tracking-tight text-slate-900 italic md:text-2xl dark:text-white">
+                      <h4 className="font-serif text-lg leading-tight tracking-tight text-slate-900 italic md:text-2xl dark:text-white break-words whitespace-normal">
                         {ev.venue.name}
                       </h4>
-                      <p className="text-xs leading-snug font-light text-slate-500 italic md:text-base dark:text-slate-400">
+                      <p className="text-xs leading-snug font-light text-slate-500 italic md:text-base dark:text-slate-400 break-words whitespace-normal">
                         {ev.venue.address}
                       </p>
                     </div>
